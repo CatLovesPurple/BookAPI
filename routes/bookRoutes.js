@@ -63,7 +63,12 @@ var routes = function(Book){
 		})
 
 		.get(function(req, res){
-			res.json(req.book);
+			var returnBook = req.book.toJSON();
+			returnBook.links = {};
+			var newLink = 'http://' + req.headers.host + '/api/books/?genre=' + returnBook.genre;
+			returnBook.links.FilterByThisGenre = newLink.replace(" ", '%20');
+			
+			res.json(returnBook);
 		})
 		.delete(function(req, res){
 			req.book.remove(function(err){

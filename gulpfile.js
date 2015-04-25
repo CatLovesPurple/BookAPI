@@ -1,6 +1,7 @@
 var gulp = require("gulp");
 var nodemon = require("gulp-nodemon");
-//gulp is just a task runner
+var gulpMocha = require('gulp-mocha');
+
 
 gulp.task('default', function(){
 	nodemon({
@@ -15,3 +16,4 @@ gulp.task('default', function(){
 		console.log("restarting;");
 	});
 });
+
