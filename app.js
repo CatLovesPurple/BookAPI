@@ -14,43 +14,11 @@ var port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-var bookRouter = express.Router();
+//execute the function 
+bookRouter = require("./routes/bookRoutes")(Book);
 
-bookRouter.route('/books')
-	.post(function(req,res){
-		var book = new Book(req.body);
-		book.save();
-		console.log(req.body);
-
-		res.send(book);
-	})
-	.get(function(req, res){
-		var query = {};
-		if(req.query.genre){
-			query.genre = req.query.genre;
-		}
-
-		Book.find(query, function(err, books){
-			if(err){
-				//internal server errors
-				res.status(500).send(err);
-			}
-			res.json(books);
-
-		});
-	});
-
-bookRouter.route('books/:bookId').get(function(req, res){
-	Book.findById(req.params.bookId, function(err, book){
-		if(err){
-			//internal server errors
-			res.status(500).send(err);
-		}
-		res.json(book);
-
-	});
-});
-app.use('/api', bookRouter);
+app.use('/api/books', bookRouter);
+// app.use('/api/author', authorRouter);
 
 app.get('/', function(req, res){
 	res.send("testing APIs");
